@@ -1,0 +1,108 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-5">
+  <div class="container-fluid ">
+    <div class="header-body" *ngIf="selected">
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                <div class="card-header border-0">
+                    <div style="display:inline-block;"><strong>{{selected.string}}</strong> executed in {{selected.time}} milliseconds</div>
+                    <div style="float:right;display:inline-block;">
+                      <button class="btn btn-icon btn-2 btn-primary btn-sm" type="button" (click)="open(null)">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Chain</th>
+                        <th scope="col">Host</th>
+                        <th scope="col">IP</th>
+                        <th scope="col">Start</th>
+                        <th scope="col">End</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let step of selected.steps">
+                        <td>{{step.step}}</td>
+                        <td>{{step.host}}</td>
+                        <td>{{step.ip}}</td>
+                        <td>{{step.start | date:'short' }}</td>
+                        <td>{{step.end | date:'short' }}</td>
+                        <td>{{step.total}} ms</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Requests</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Chains</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Response</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let request of data.requests">
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" *ngFor="let chain of request.chains" [innerHTML]="chain.html | keepHtml " (click)="open(chain)"></button>
+                </td>
+                <td>
+                  <div *ngIf="request['completed']" style="font-size:19px;color:forestgreen;"><i class="ni ni-check-bold"></i></div>
+                  <div *ngIf="!request['completed']" style="font-size:19px;color:darkred;"><i class="ni ni-fat-remove"></i></div>
+                </td>
+                <td>
+                  {{request.exec.total}} ms
+                </td>
+                <td class="text-center">
+
+                  <div *ngIf="request['completed']" style="font-size:19px;color:forestgreen;">{{request['steps'].length}} / {{request['totalSteps']}}</div>
+                  <div *ngIf="!request['completed']" style="font-size:19px;color:darkred;">{{request['steps'].length}} /  {{request['totalSteps']}}</div>
+                </td>
+                <td>
+                  {{request['exec']['host']}}
+                </td>
+                <td>
+                  <div *ngIf="!request['completed'] && !request['chainBreak']['breakChain']"  style="font-size:19px;color:darkred;">Incomplete</div>
+                  <div *ngIf="request['chainBreak']['breakChain']">
+                    Chain Broken: <br/>{{request['chainBreak']['breakReasons']}}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
