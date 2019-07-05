@@ -11,7 +11,8 @@ export class NucleoWatchService {
   };
   constructor() {
     var t = this;
-    t.socket = new WebSocket('ws://192.168.1.26:8080/ws');
+    
+    t.socket = new WebSocket('ws://dev.nucleocore.com/ws');
 
     t.socket.addEventListener('open', function (event) {
       console.log('Connected to server!');
