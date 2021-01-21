@@ -34,7 +34,7 @@
     "node-sass": "^4.12.0",
     "nouislider": "13.1.1",
     "rxjs": "6.4.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
